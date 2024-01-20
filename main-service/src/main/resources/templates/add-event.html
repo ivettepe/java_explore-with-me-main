@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="https://www.thymeleaf.org/">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore with me - Добавить событие</title>
+    <meta name="description" content="Explore with me - Добавить событие">
+    <link rel="stylesheet" th:href="@{/css/common-styles.css}"/>
+    <link rel="stylesheet" th:href="@{/css/add-event.css}"/>
+    <script type="text/javascript" th:src="@{/js/header-script.js}"></script>
+  </head>
+
+  <body>
+    <main class="main">
+
+      <div th:replace="fragments/header :: header"></div>
+
+      <div class="content-container">
+
+        <h1 class="add-event-header">Добавить событие</h1>
+
+        <div class="add-event-content-block">
+
+          <form class="add-event-fields" th:action="@{/users/add-event}" method="POST" th:object="${event}">
+
+            <div class="add-event-field">
+              <label class="add-event-label" for="title">Название</label>
+              <input class="add-event-input" type="text" id="title" th:field="*{title}" required />
+              <span class="add-event-note">Заголовок события. 3-120 символов</span>
+            </div>
+
+            <div class="add-event-field">
+              <label class="add-event-label" for="description">Описание</label>
+              <textarea class="add-event-input" id="description" th:field="*{description}" required ></textarea>
+              <span class="add-event-note">Полное описание события. 20-7000 символов</span>
+            </div>
+
+            <div class="add-event-field">
+              <label class="add-event-label" for="annotation">Аннотация</label>
+              <textarea class="add-event-input" id="annotation" th:field="*{annotation}" required ></textarea>
+              <span class="add-event-note">Краткое описание события. 20-2000 символов</span>
+            </div>
+
+            <div class="add-event-field">
+              <label class="add-event-label" for="category">Категория</label>
+                <select class="add-event-input" id="category" th:field="*{category}" required >
+                  <option value="">(Выберите категорию)</option>
+                  <option th:each="option : ${selectCategoryOptions}" th:value="${option.id}" th:text="${option.name}"></option>
+                </select>
+            </div>
+
+            <div class="add-event-field">
+              <label class="add-event-label" for="date">Дата и время</label>
+              <input class="add-event-input" type="datetime-local" id="date" th:field="*{eventDate}" required />
+              <span class="add-event-note">Дата и время события</span>
+            </div>
+
+            <div class="add-event-field">
+              <label class="add-event-label" for="paid">Событие платное?</label>
+              <input class="add-event-input" type="checkbox" id="paid" th:field="*{paid}" value="false"/>
+              <span class="add-event-note">Поставьте галочку, если событие платное</span>
+            </div>
+
+            <div class="add-event-field location">
+              <label class="add-event-label location-lat-label" for="lat">Широта</label>
+              <input class="add-event-input location-lat-input" type="number" id="lat" th:field="*{location.lat}" required />
+
+              <label class="add-event-label location-lon-label" for="lon">Долгота</label>
+              <input class="add-event-input location-lon-input" type="number" id="lon" th:field="*{location.lon}" required />
+              <span class="location-note">Укажите широту и долготу - координаты места мероприятия </span>
+            </div>
+
+            <div class="add-event-field">
+              <label class="add-event-label" for="participants">Лимит участников</label>
+              <input class="add-event-input" type="number" step="1" min="0" id="participants" th:field="*{participantLimit}" />
+              <span class="add-event-note">Значение 0 означает отсутствие ограничения</span>
+            </div>
+
+            <div class="add-event-field">
+              <label class="add-event-label" for="requests">Одобрение заявок</label>
+              <input class="add-event-input" type="checkbox" id="requests" th:field="*{requestModeration}"/>
+              <span class="add-event-note">Поставьте галочку, если хотите вручную отбирать заявки на участие</span>
+            </div>
+
+            <button class="add-event-btn" type="submit">Сохранить событие</button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <div th:replace="fragments/footer :: footer"></div>
+
+    </main>
+  </body>
+</html>
